@@ -1,10 +1,4 @@
 class ToppagesController < ApplicationController
-  def indexgit
-  end
-
-  def add
-  end
-
-  def .
+  def index
   end
 end
