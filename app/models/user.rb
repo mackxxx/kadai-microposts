@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  
   before_save { self.email.downcase! }
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 },
@@ -11,7 +12,9 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :follow
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverses_of_relationship, source: :user
-
+  has_many :likes
+  has_many :adding_to_likes, through: :likes, source: :micropost
+ 
   def follow(other_user)
     unless self == other_user
       self.relationships.find_or_create_by(follow_id: other_user.id)
@@ -26,8 +29,26 @@ class User < ApplicationRecord
   def following?(other_user)
     self.followings.include?(other_user)
   end
-end
+
 
   def feed_microposts
     Micropost.where(user_id: self.following_ids + [self.id])
   end
+  
+  def add_to_likes(micropost)
+    unless self.likes.find_by(micropost_id: micropost.id)
+      self.likes.create(micropost_id: micropost.id)
+    end
+  end
+  
+  def release_likes(micropost)
+    like = self.likes.find_by(micropost_id: micropost.id)
+    if like
+      like.destroy
+    end
+  end
+  
+  def adding_to_likes?(micropost)
+    self.adding_to_likes.include?(micropost)
+  end
+end

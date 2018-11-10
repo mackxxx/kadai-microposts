@@ -8,7 +8,7 @@
         <div>
           <%= link_to micropost.user.name, user_path(micropost.user) %> <span class="text-muted">posted at <%= micropost.created_at %></span>
         </div>
-        <div>
+       <div>
           <p><%= micropost.content %></p>
         </div>
         <div>
@@ -16,8 +16,14 @@
             <%= link_to "Delete", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-xs' %>
           <% end %>
         </div>
-      </div>
+        <div>
+          <%= render "likes/like_button", micropost: micropost %>
+          <% if session[:micropost_id].to_s == micropost.id.to_s %>
+        <% end %>
+        </div>
+       </div>
     </li>
-  <% end %>
-  <%= paginate microposts %>
+   <% end %>
+  
+   <%= paginate microposts %>
 </ul>

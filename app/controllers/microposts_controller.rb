@@ -29,7 +29,13 @@ class MicropostsController < ApplicationController
   def correct_user
     @micropost = current_user.microposts.find_by(id: params[:id])
     unless @micropost
-      redirect_to root_url
+      redirect_to root_path
+    end
+  end
+  
+  def destroy_linked_likes
+    if Favorite.find_by(micropost_id: @micropost.id)
+      @micropost.likes.destroy_all
     end
   end
 end
