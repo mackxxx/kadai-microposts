@@ -6,4 +6,5 @@ class Micropost < ApplicationRecord
 
   has_many :likes
   has_many :added_to_likes, through: :likes, source: :user
+  has_many :likes, dependent: :destroy
 end
