@@ -19,11 +19,11 @@
         <div>
           <%= render "likes/like_button", micropost: micropost %>
           <% if session[:micropost_id].to_s == micropost.id.to_s %>
-        <% end %>
+          <% end %>
         </div>
        </div>
     </li>
-   <% end %>
-  
-   <%= paginate microposts %>
+  <% end %>
+
+  <%= paginate microposts %>
 </ul>

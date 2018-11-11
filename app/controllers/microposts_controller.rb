@@ -34,7 +34,7 @@ class MicropostsController < ApplicationController
   end
   
   def destroy_linked_likes
-    if Favorite.find_by(micropost_id: @micropost.id)
+    if Like.find_by(micropost_id: @micropost.id)
       @micropost.likes.destroy_all
     end
   end
